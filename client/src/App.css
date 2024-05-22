@@ -1,0 +1,16 @@
+.page-container {
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+}
+
+.editor-container {
+  height: 80%;
+  width: 60%;
+  border: solid 1px red;
+}
+
+.base-node {
+  border: solid 0.13rem black;
+  border-radius: 0.5rem;
+}
