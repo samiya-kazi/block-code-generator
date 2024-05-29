@@ -19,3 +19,13 @@
   font-size: xx-large;
   font-weight: bold;
 }
+
+.board-space {
+  height: 5rem;
+  width: 5rem;
+  border: solid 0.13rem black;
+}
+
+.board-row {
+  display: flex;
+}
