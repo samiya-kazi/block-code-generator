@@ -1,13 +1,13 @@
 import { createContext } from "react";
-import { Connection, Edge, EdgeChange, MarkerType, Node, NodeChange, addEdge, applyEdgeChanges, applyNodeChanges, useEdgesState, useNodesState } from "reactflow";
+import { Connection, Edge, EdgeChange, Node, NodeChange } from "reactflow";
 
-const onConnect = (params: Edge | Connection) => { return };
+const onConnect = (_params: Edge | Connection) => { return };
 
-const onNodesChange = (changes: NodeChange[]) => { return };
+const onNodesChange = (_changes: NodeChange[]) => { return };
 
-const onEdgesChange = (changes: EdgeChange[]) => { return };
+const onEdgesChange = (_changes: EdgeChange[]) => { return };
 
-const addNode = (type: string, parentId?: string) => { 
+const addNode = (_type: string, _parentId?: string) => { 
   console.log('I am the context function');
   return;
  };

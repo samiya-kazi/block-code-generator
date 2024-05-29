@@ -1,7 +1,6 @@
-import React from 'react'
 import { Handle, Position } from 'reactflow'
 
-function TurnNode({ id, data }: { id: string, data: { label: string, direction?: string } }) {
+function TurnNode({ data }: { id: string, data: { label: string, direction?: string } }) {
   return (
     <div className="base-node">
       <div style={{ padding: '10px 20px' }}>
