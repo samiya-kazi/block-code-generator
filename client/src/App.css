@@ -7,10 +7,15 @@
 .editor-container {
   height: 80%;
   width: 60%;
-  border: solid 1px red;
 }
 
 .base-node {
   border: solid 0.13rem black;
   border-radius: 0.5rem;
+  background-color: white;
+}
+
+.node-title {
+  font-size: xx-large;
+  font-weight: bold;
 }

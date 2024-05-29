@@ -1,12 +1,12 @@
 import React from 'react'
 import { Handle, Position } from 'reactflow'
 
-function TurnNode({ id, data }: { id: string, data: { label: string, steps?: number } }) {
+function TurnNode({ id, data }: { id: string, data: { label: string, direction?: string } }) {
   return (
     <div className="base-node">
       <div style={{ padding: '10px 20px' }}>
         <span>Turn </span>
-        <select>
+        <select onChange={(e) => data.direction = e.target.value}>
           <option value={"left"}>Left</option>
           <option value={"right"}>Right</option>
         </select>
