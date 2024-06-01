@@ -24,14 +24,22 @@ const FlowContext = createContext<{
   onConnect: (params: Edge | Connection) => void,
   onNodesChange: (changes: NodeChange[]) => void,
   onEdgesChange: (changes: EdgeChange[]) => void,
-  addNode: (type: string, parentId?: string) => void
+  addNode: (type: string, parentId?: string) => void,
+  currentPos: {
+    x: number,
+    y: number
+  },
 }>({ 
   nodes: [], 
   edges: [], 
   onConnect, 
   onNodesChange, 
   onEdgesChange, 
-  addNode 
+  addNode,
+  currentPos: {
+    x: 0,
+    y: 0
+  },
 })
 
 export default FlowContext;

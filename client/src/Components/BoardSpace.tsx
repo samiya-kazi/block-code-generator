@@ -1,4 +1,5 @@
-import { useContext } from "react"
+import { useContext } from "react";
+import robot from '../assets/robot.svg'
 import BoardContext from "../Context/BoardContext"
 
 
@@ -9,7 +10,11 @@ function BoardSpace({ x, y }: { x: number, y: number}) {
 
   return (
     <div className='board-space'>
-      { x === context.currentPos.x && y === context.currentPos.y && 'X'}
+      { x === context.currentPos.x && y === context.currentPos.y && 
+        <div>
+          <img src={robot} />
+        </div>
+      }
     </div>
   )
 }
