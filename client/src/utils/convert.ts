@@ -61,6 +61,11 @@ export const convertFlowToFunction = (nodes: Node[], edges: Edge[]) => {
 
 
 export const convertFlowToArray = (nodes: Node[], edges: Edge[]) => {
+  const nodeArray = generateNodeArray(nodes, edges);
+  return convertNodeArrToSingleSteps(nodeArray);
+}
+
+function generateNodeArray (nodes: Node[], edges: Edge[], parentId?: string) {
   if (!nodes.length || !edges.length) return [];
 
   let copiedNodes = JSON.parse(JSON.stringify(nodes)) as Node[];
@@ -68,8 +73,26 @@ export const convertFlowToArray = (nodes: Node[], edges: Edge[]) => {
 
   let nodeArray: Node[] = [];
 
-  const index = copiedNodes.findIndex(node => node.type === 'start');
-  nodeArray.push(copiedNodes[index]);
+  if (!parentId) {
+    const index = copiedNodes.findIndex(node => node.type === 'start');
+    nodeArray.push(copiedNodes[index]);
+  } else {
+    let startNode = copiedNodes.find(node => {
+      if (node.parentId !== parentId) return false;
+  
+      const connectedEdges = copiedEdges.filter(ed => ed.target === node.id || ed.source === node.id);
+      if (connectedEdges.length === 1 && connectedEdges[0].source === node.id) return true;
+      return false;
+    });
+  
+    if (!startNode) {
+      const childNodes = copiedNodes.filter(node => node.parentId === parentId);
+      if (!childNodes.length) return [];
+      startNode = childNodes[0];
+    }
+  
+    nodeArray.push(startNode);
+  }
 
   let flag = true;
 
@@ -78,7 +101,7 @@ export const convertFlowToArray = (nodes: Node[], edges: Edge[]) => {
 
     if (lastStep.type === "for") {
       nodeArray.pop();
-      const subNodes = getSubArray(copiedNodes, copiedEdges, lastStep.id);
+      const subNodes = generateNodeArray(copiedNodes, copiedEdges, lastStep.id);
       for (let i = 0; i < lastStep.data.times; i++) {
         nodeArray.push(...subNodes);
       }
@@ -99,55 +122,16 @@ export const convertFlowToArray = (nodes: Node[], edges: Edge[]) => {
   return nodeArray;
 }
 
+export function convertNodeArrToSingleSteps (nodes: Node[]) {
+  const res: string[] = [];
 
-function getSubArray (nodes: Node[], edges: Edge[], parentId: string) {
-  if (!nodes.length || !edges.length) return [];
-
-  let copiedNodes = JSON.parse(JSON.stringify(nodes)) as Node[];
-  const copiedEdges = JSON.parse(JSON.stringify(edges)) as Edge[];
-
-  let nodeArray: Node[] = [];
-
-  let startNode = copiedNodes.find(node => {
-    if (node.parentId !== parentId) return false;
-
-    const connectedEdges = copiedEdges.filter(ed => ed.target === node.id || ed.source === node.id);
-    if (connectedEdges.length === 1 && connectedEdges[0].source === node.id) return true;
-    return false;
-  });
-
-  if (!startNode) {
-    const childNodes = copiedNodes.filter(node => node.parentId === parentId);
-    if (!childNodes.length) return [];
-    startNode = childNodes[0];
-  }
-
-  nodeArray.push(startNode);
-
-  let flag = true;
-
-  while (flag) {
-    const lastStep = nodeArray[nodeArray.length - 1];
-
-    if (lastStep.type === "for") {
-      nodeArray.pop();
-      const subNodes = getSubArray(copiedNodes, copiedEdges, lastStep.id);
-      for (let i = 0; i < lastStep.data.times; i++) {
-        nodeArray.push(...subNodes);
+  for (const node of nodes) {
+    if (node.type === 'move') {
+      for (let i = 0; i < node.data.steps; i++) {
+        res.push('move');
       }
-    }
-
-    const edgeIndex = copiedEdges.findIndex(edge => edge.source === lastStep.id);
-    if (edgeIndex === -1) {
-      flag = false;
-      break;
-    }
-
-    const edge = copiedEdges[edgeIndex];
-    const nextNodeIndex = copiedNodes.findIndex(node => node.id === edge.target);
-    const nextNode = copiedNodes[nextNodeIndex]; 
-    nodeArray.push(nextNode);
+    } else res.push(node.data.direction)
   }
 
-  return nodeArray;
+  return res;
 }

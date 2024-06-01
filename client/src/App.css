@@ -24,6 +24,9 @@
   height: 5rem;
   width: 5rem;
   border: solid 0.13rem black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .board-row {
