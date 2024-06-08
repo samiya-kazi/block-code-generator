@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import robot from '../assets/robot.svg'
-import BoardContext from "../Context/BoardContext"
+import FlowContext from "../Context/FlowContext";
 
 
 function BoardSpace({ x, y }: { x: number, y: number}) {
 
-  const context = useContext(BoardContext);
-
+  const context = useContext(FlowContext);
 
   return (
     <div className='board-space'>

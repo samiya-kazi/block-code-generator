@@ -1,7 +1,7 @@
 import Editor from './Components/Editor';
 import './App.css';
 import GameBoard from './Components/GameBoard';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNodesState, useEdgesState, Edge, Connection, MarkerType, addEdge, NodeChange, applyNodeChanges, EdgeChange, applyEdgeChanges } from 'reactflow';
 import FlowContext from './Context/FlowContext';
 // import BoardContext from './Context/BoardContext';
@@ -9,6 +9,9 @@ import FlowContext from './Context/FlowContext';
 const parent: "parent" = "parent";
 
 function App() {
+
+  const [ currentPos, setCurrentPos ] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+  const [ direction, setDirection ] = useState<'up' | 'down' | 'left' | 'right'>('right');
   
   const [nodes, setNodes] = useNodesState<{
     label?: string,
@@ -86,7 +89,10 @@ function App() {
   return (
     <FlowContext.Provider
       value={{
-        currentPos: { x: 0, y: 0 },
+        currentPos,
+        setCurrentPos,
+        direction,
+        setDirection,
         nodes,
         edges,
         onConnect,
