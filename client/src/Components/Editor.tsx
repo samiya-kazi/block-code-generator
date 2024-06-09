@@ -36,9 +36,7 @@ function Editor() {
       if (run && copy.length) {
         const nextStep = copy.shift();
         setSteps(copy);
-        console.log(nextStep)
         if (nextStep === 'move') {
-          console.log('Prev pos', ctx.currentPos)
           const displacement = movement[ctx.angle];
           const x = ctx.currentPos.x + displacement.x < 400 && ctx.currentPos.x + displacement.x >= 40 ? ctx.currentPos.x + displacement.x : ctx.currentPos.x;
           const y = ctx.currentPos.y + displacement.y < 400 && ctx.currentPos.y + displacement.y >= 40 ? ctx.currentPos.y + displacement.y : ctx.currentPos.y;

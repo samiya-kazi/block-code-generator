@@ -17,8 +17,9 @@ function App() {
     steps?: number,
     direction?: string,
     times?: number,
-    parentId?: string
-  }>([{ id: 'start-node', type: 'start', position: { x: 100, y: 100 }, data: { label: 'Start' } }]);
+    parentId?: string,
+    level: number
+  }>([{ id: 'start-node', type: 'start', position: { x: 100, y: 100 }, data: { label: 'Start', level: 1 } }]);
 
   const [edges, setEdges] = useEdgesState([]);
 
@@ -53,18 +54,20 @@ function App() {
     [setEdges]
   );
 
-  function addNode(type: string, parentId?: string) {
+  function addNode(type: string, parentId?: string, parentLevel?: number) {
 
     if (parentId) {
       const parentIndex = nodes.findIndex(node => node.id === parentId);
       if (parentIndex === -1) return;
     }
 
-    let data;
-    if (type === 'move') data = { steps: 0, parentId };
-    else if (type === 'turn') data = { direction: 'left', parentId }
-    else if (type === 'for') data = { times: 0, parentId };
-    else data = { label: 'New node', parentId };
+    const data = {
+      parentId,
+      level: parentLevel ? parentLevel + 1 : 1,
+      steps: type === 'move' ? 0 : undefined,
+      direction: type === 'turn' ? 'left' : undefined,
+      times: type === 'for' ? 0 : undefined
+    }
 
     const newNode = {
       id: Date.now().toString(),

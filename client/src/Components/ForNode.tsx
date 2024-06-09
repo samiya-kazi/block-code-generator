@@ -3,31 +3,33 @@ import { Handle, Position } from 'reactflow'
 import FlowContext from '../Context/FlowContext';
 import close from '../assets/close.svg';
 
-function ForNode({ id, data }: { 
-  id: string, 
-  data: { 
-    label: string, 
+function ForNode({ id, data }: {
+  id: string,
+  data: {
+    label: string,
+    level: number,
     times?: number
-  } 
+  }
 }) {
 
-  const context = useContext(FlowContext);
+  const ctx = useContext(FlowContext);
 
-  const numOfChild = context.nodes.reduce((count, node) => node.parentId == id ? count + 1 : count, 0);
+  const numOfChild = ctx.nodes.reduce((count, node) => node.parentId == id ? count + 1 : count, 0);
 
   return (
-    <div className="base-node">
-      <div className="node-btn-container"><img className="close-btn" src={close} /></div>
-      <div style={{ padding: '10px 20px', height: `${(numOfChild * 3) + 3}rem` }}>
-        <div>
-          <button onClick={() =>  context.addNode('move', id)}>+ Move</button>
-          <button onClick={() =>  context.addNode('turn', id)}>+ Turn</button>
-          <button onClick={() =>  context.addNode('for', id)}>+ For</button>
+    <div className="base-node flex-col-center for-node" style={{ height: `${(numOfChild * 4) + 6}rem`, width: '15rem' }}>
+      <div className="node-btn-container"><img className="close-btn" src={close}  onClick={() => ctx.removeNode(id)} /></div>
+        <div className='flex-center'>
+          <span>For </span>
+          <input type="number" className='num-input' onChange={(e) => data.times = Number(e.target.value)} />
+          <span> times</span>
         </div>
-        <span>For </span>
-        <input type="number" onChange={(e) => data.times = Number(e.target.value)} />
-        <span> times</span>
+      <div className="for-btn-container">
+        <button onClick={() => ctx.addNode('move', id, data.level)}>+ Move</button>
+        <button onClick={() => ctx.addNode('turn', id, data.level)}>+ Turn</button>
+        <button onClick={() => ctx.addNode('for', id, data.level)}>+ For</button>
       </div>
+
 
       <Handle type="target" position={Position.Top} />
       <Handle type="source" position={Position.Bottom} />

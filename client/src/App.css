@@ -34,10 +34,52 @@
 }
 
 .node-btn-container {
+  width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
 .close-btn {
   cursor: pointer;
+}
+
+.num-input {
+  width: 2rem;
+  height: 2rem;
+  border: solid 0.05rem rgb(124, 124, 124);
+  border-radius: 0.25rem;
+  margin: 0.5rem;
+}
+
+.num-input:active {
+  border: solid 0.05rem rgb(0, 0, 0);
+}
+
+.for-btn-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.for-btn-container > button {
+  background-color: rgb(18, 67, 175);
+  border: solid 0.05rem grey;
+  border-radius: 0.1rem;
+  color: white;
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.for-node {
+  background-color: rgba(234, 164, 255, 0.616);
 }
