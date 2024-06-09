@@ -10,16 +10,16 @@ const parent: "parent" = "parent";
 
 function App() {
 
-  const [ currentPos, setCurrentPos ] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
-  const [ direction, setDirection ] = useState<'up' | 'down' | 'left' | 'right'>('right');
-  
+  const [currentPos, setCurrentPos] = useState<{ x: number, y: number }>({ x: 40, y: 40 });
+  const [angle, setAngle] = useState<0 | 90 | 180 | 270>(0);
+
   const [nodes, setNodes] = useNodesState<{
     label?: string,
     steps?: number,
     direction?: string,
     times?: number,
     parentId?: string
-  }>([{ id: 'start-node', type: 'start', position: { x: 100, y: 100}, data: { label: 'Start' }}]);
+  }>([{ id: 'start-node', type: 'start', position: { x: 100, y: 100 }, data: { label: 'Start' } }]);
 
   const [edges, setEdges] = useEdgesState([]);
 
@@ -80,7 +80,7 @@ function App() {
   }
 
   useEffect(() => {
-    const newNodes = nodes.map(node => node.data.parentId ? {...node, parentId: node.data.parentId } : node);
+    const newNodes = nodes.map(node => node.data.parentId ? { ...node, parentId: node.data.parentId } : node);
     setNodes(newNodes);
   }, [setNodes]);
 
@@ -91,8 +91,8 @@ function App() {
       value={{
         currentPos,
         setCurrentPos,
-        direction,
-        setDirection,
+        angle,
+        setAngle,
         nodes,
         edges,
         onConnect,

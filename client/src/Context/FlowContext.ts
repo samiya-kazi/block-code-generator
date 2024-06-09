@@ -14,7 +14,7 @@ const addNode = (_type: string, _parentId?: string) => {
 
 const setCurrentPos = () => {};
 
-const setDirection = () => {};
+const setAngle = () => {};
 
 const FlowContext = createContext<{
   nodes: Node<{
@@ -34,8 +34,8 @@ const FlowContext = createContext<{
     y: number
   },
   setCurrentPos: React.Dispatch<React.SetStateAction<{ x: number, y: number }>>
-  direction: 'up' | 'down' | 'left' | 'right',
-  setDirection: React.Dispatch<React.SetStateAction<'up' | 'down' | 'left' | 'right'>>
+  angle: 0 | 90 | 180 | 270,
+  setAngle: React.Dispatch<React.SetStateAction<0 | 90 | 180 | 270>>
 }>({
   nodes: [],
   edges: [],
@@ -44,12 +44,12 @@ const FlowContext = createContext<{
   onEdgesChange,
   addNode,
   currentPos: {
-    x: 0,
-    y: 0
+    x: 40,
+    y: 40
   },
   setCurrentPos,
-  direction: 'left',
-  setDirection
+  angle: 0,
+  setAngle
 })
 
 export default FlowContext;

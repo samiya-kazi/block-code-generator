@@ -1,13 +1,23 @@
-import BoardSpace from './BoardSpace'
+import { Stage } from '@pixi/react'
+import BoardPiece from './BoardPiece';
+import { useContext } from 'react';
+import FlowContext from '../Context/FlowContext';
 
-const board = Array(5).fill(0).map(_ => Array(5).fill(1));
+const stageWidth = 400;
+const stageHeight = 400;
 
 function GameBoard() {
+
+  const ctx = useContext(FlowContext);
+
   return (
     <div>
-      {board.map((row, x) => <div key={`board-row-${x}`} className='board-row'>
-        {row.map((_, y) => <BoardSpace key={`space-${x}-${y}`} x={x} y={y} />)}
-      </div>)}
+      <Stage
+        width={stageWidth}
+        height={stageHeight}
+        options={{ backgroundAlpha: 0 }}>
+        <BoardPiece {...ctx.currentPos} angle={ctx.angle} />
+      </Stage>
     </div>
   )
 }
