@@ -32,3 +32,12 @@
 .board-row {
   display: flex;
 }
+
+.node-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  cursor: pointer;
+}

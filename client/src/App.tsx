@@ -4,7 +4,6 @@ import GameBoard from './Components/GameBoard';
 import { useCallback, useEffect, useState } from 'react';
 import { useNodesState, useEdgesState, Edge, Connection, MarkerType, addEdge, NodeChange, applyNodeChanges, EdgeChange, applyEdgeChanges } from 'reactflow';
 import FlowContext from './Context/FlowContext';
-// import BoardContext from './Context/BoardContext';
 
 const parent: "parent" = "parent";
 
@@ -79,6 +78,12 @@ function App() {
     setNodes([...nodes, newNode]);
   }
 
+
+  function removeNode (id: string) {
+    setNodes(prev => prev.filter(node => node.id !== id));
+    setEdges(prev => prev.filter(edge => edge.target !== id && edge.source !== id));
+  }
+
   useEffect(() => {
     const newNodes = nodes.map(node => node.data.parentId ? { ...node, parentId: node.data.parentId } : node);
     setNodes(newNodes);
@@ -98,7 +103,8 @@ function App() {
         onConnect,
         onNodesChange,
         onEdgesChange,
-        addNode
+        addNode,
+        removeNode
       }}
     >
       <div className="page-container">

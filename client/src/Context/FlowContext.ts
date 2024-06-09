@@ -12,6 +12,8 @@ const addNode = (_type: string, _parentId?: string) => {
   return;
 };
 
+const removeNode = (_id: string) => { return };
+
 const setCurrentPos = () => {};
 
 const setAngle = () => {};
@@ -29,6 +31,7 @@ const FlowContext = createContext<{
   onNodesChange: (changes: NodeChange[]) => void,
   onEdgesChange: (changes: EdgeChange[]) => void,
   addNode: (type: string, parentId?: string) => void,
+  removeNode: (id: string) => void,
   currentPos: {
     x: number,
     y: number
@@ -43,6 +46,7 @@ const FlowContext = createContext<{
   onNodesChange,
   onEdgesChange,
   addNode,
+  removeNode,
   currentPos: {
     x: 40,
     y: 40

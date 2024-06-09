@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Handle, Position } from 'reactflow'
 import FlowContext from '../Context/FlowContext';
+import close from '../assets/close.svg';
 
 function ForNode({ id, data }: { 
   id: string, 
@@ -16,6 +17,7 @@ function ForNode({ id, data }: {
 
   return (
     <div className="base-node">
+      <div className="node-btn-container"><img className="close-btn" src={close} /></div>
       <div style={{ padding: '10px 20px', height: `${(numOfChild * 3) + 3}rem` }}>
         <div>
           <button onClick={() =>  context.addNode('move', id)}>+ Move</button>
