@@ -10,10 +10,10 @@ import StartNode from './StartNode';
 import { convertFlowToArray } from '../utils/convert';
 
 const movement = {
-  0: { x: 40, y: 0 },
-  90: { x: 0, y: 40 },
-  180: { x: -40, y: 0 },
-  270: { x: 0, y: -40 },
+  0: { x: 80, y: 0 },
+  90: { x: 0, y: 80 },
+  180: { x: -80, y: 0 },
+  270: { x: 0, y: -80 },
 };
 
 function Editor() {

@@ -83,8 +83,30 @@ function App() {
 
 
   function removeNode (id: string) {
-    setNodes(prev => prev.filter(node => node.id !== id));
-    setEdges(prev => prev.filter(edge => edge.target !== id && edge.source !== id));
+    const nodesToRemove = getNodesToRemove(id);
+    setNodes(prev => prev.filter(node => {
+      if (node.id === id) return false;
+      if (nodesToRemove.findIndex(n => n.id === node.id) !== -1) return false;
+      return true;
+    }));
+
+    setEdges(prev => prev.filter(edge => {
+      const targetIndex = nodesToRemove.findIndex(node => node.id === edge.target);
+      const sourceIndex = nodesToRemove.findIndex(node => node.id === edge.source);
+      return targetIndex === -1 && sourceIndex === -1;
+    }));
+  }
+
+  function getNodesToRemove (id: string) {
+    const nodeToRemove = nodes.filter(node => node.id === id);
+    const childNodes = nodes.filter(node => node.parentId && node.parentId === id);
+    if (!childNodes.length) return nodeToRemove;
+
+    const allNodesToRemove = [...nodeToRemove];
+    for (const node of childNodes) {
+      allNodesToRemove.push(...getNodesToRemove(node.id));
+    }
+    return allNodesToRemove;
   }
 
   useEffect(() => {
