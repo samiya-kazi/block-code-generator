@@ -10,9 +10,13 @@
 }
 
 .base-node {
-  border: solid 0.13rem black;
+  border: solid 0.11rem black;
   border-radius: 0.5rem;
   background-color: white;
+}
+
+.selected-node {
+  border: solid 0.2rem rgb(0, 119, 155);
 }
 
 .node-title {
@@ -33,18 +37,21 @@
   display: flex;
 }
 
-.node-btn-container {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
 .close-btn {
   cursor: pointer;
 }
 
 .num-input {
   width: 2rem;
+  height: 2rem;
+  border: solid 0.05rem rgb(124, 124, 124);
+  border-radius: 0.25rem;
+  margin: 0.5rem;
+  text-align: center;
+}
+
+.select-input {
+  width: 3.5rem;
   height: 2rem;
   border: solid 0.05rem rgb(124, 124, 124);
   border-radius: 0.25rem;
@@ -59,10 +66,11 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
+  align-items: center;
 }
 
 .for-btn-container > button {
-  background-color: rgb(18, 67, 175);
+  background-color: #1243af;
   border: solid 0.05rem grey;
   border-radius: 0.1rem;
   color: white;
@@ -81,5 +89,56 @@
 }
 
 .for-node {
-  background-color: rgba(234, 164, 255, 0.616);
+  background-color: rgba(234, 164, 255, 0.5);
+}
+
+.flex {
+  display: flex;
+}
+
+.node-icon {
+  width: 30%;
+  min-width: 3rem;
+  height: 100%;
+  display: flex;
+  align-self: center;
+}
+
+.node-info {
+  height: 2rem;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.close-btn-container {
+  width: 20%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.move-node {
+  background-color: rgba(255, 252, 164, 0.5);
+}
+
+.turn-node {
+  background-color: rgba(164, 255, 211, 0.5);
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.num-input::-webkit-outer-spin-button,
+.num-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.num-input[type=number] {
+  -moz-appearance: textfield;
 }

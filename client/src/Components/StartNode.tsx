@@ -1,8 +1,8 @@
 import { Handle, Position } from 'reactflow'
 
-function StartNode() {
+function StartNode({ selected }: { selected: boolean }) {
   return (
-    <div className="base-node">
+    <div className={"base-node" + ( selected ? " selected-node" : "")}>
     <div style={{ padding: '5px 20px', height: '3rem' }}>
       <div className="node-title">Start</div>
     </div>
