@@ -12,12 +12,14 @@ function GameBoard() {
 
   return (
     <div>
-      <Stage
-        width={stageWidth}
-        height={stageHeight}
-        options={{ backgroundAlpha: 0 }}>
-        <BoardPiece {...ctx.currentPos} angle={ctx.angle} />
-      </Stage>
+      <div className='board-container'>
+        <Stage
+          width={stageWidth}
+          height={stageHeight}
+          options={{ backgroundAlpha: 0 }}>
+          <BoardPiece {...ctx.currentPos} angle={ctx.angle} />
+        </Stage>
+      </div>
     </div>
   )
 }

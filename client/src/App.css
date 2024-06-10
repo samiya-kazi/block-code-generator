@@ -9,6 +9,18 @@
   width: 60%;
 }
 
+.toolbar-btn {
+  margin: 0.5rem;
+  padding: 0.2rem;
+}
+
+.flow-container {
+  height: 100%;
+  width: 100%;
+  border: solid 0.25rem rgb(192, 192, 192);
+  border-radius: 1rem;
+}
+
 .base-node {
   border: solid 0.11rem black;
   border-radius: 0.5rem;
@@ -141,4 +153,10 @@
 /* Firefox */
 .num-input[type=number] {
   -moz-appearance: textfield;
+}
+
+.board-container {
+  border: solid 0.25rem rgb(192, 192, 192);
+  border-radius: 1rem;
+  margin: 3rem;
 }

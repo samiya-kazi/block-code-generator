@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
-import ReactFlow, { Background, BackgroundVariant } from 'reactflow';
+import ReactFlow, { Background, BackgroundVariant, ControlButton, Controls } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 import ForNode from './ForNode';
@@ -59,20 +59,26 @@ function Editor() {
 
   return (
     <div className='editor-container'>
-      <button onClick={() => { addNode("move") }}>+ Move</button>
-      <button onClick={() => { addNode("turn") }}>+ Turn</button>
-      <button onClick={() => { addNode("for") }}>+ For</button>
-      <button onClick={() => { convert() }}>Convert</button>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        nodeTypes={nodeTypes}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <Background color="##324ca8" variant={BackgroundVariant.Dots} />
-      </ReactFlow>
+      <div className='toolbar'>
+        <button className='toolbar-btn' onClick={() => { addNode("move") }}>+ Move</button>
+        <button className='toolbar-btn' onClick={() => { addNode("turn") }}>+ Turn</button>
+        <button className='toolbar-btn' onClick={() => { addNode("for") }}>+ For</button>
+        <button className='toolbar-btn' onClick={() => { convert() }}>Convert</button>
+      </div>
+
+      <div className='flow-container'>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+        >
+          <Background color="##324ca8" variant={BackgroundVariant.Dots} />
+          <Controls />
+        </ReactFlow>
+      </div>
     </div>
   )
 }
