@@ -152,11 +152,23 @@
 
 /* Firefox */
 .num-input[type=number] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .board-container {
   border: solid 0.25rem rgb(192, 192, 192);
   border-radius: 1rem;
   margin: 3rem;
+}
+
+.code-container {
+  border: solid 0.2rem rgb(192, 192, 192);
+  background-color: rgb(225, 225, 225);
+  margin: 3rem;
+  min-height: 10rem;
+  height: fit-content;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  font-family: "Lucida Console", "Courier New", monospace;
+  color: rgb(59, 59, 59);
 }

@@ -18,6 +18,8 @@ const setCurrentPos = () => {};
 
 const setAngle = () => {};
 
+const setCode = () => {};
+
 const FlowContext = createContext<{
   nodes: Node<{
     label?: string,
@@ -38,7 +40,9 @@ const FlowContext = createContext<{
   },
   setCurrentPos: React.Dispatch<React.SetStateAction<{ x: number, y: number }>>
   angle: 0 | 90 | 180 | 270,
-  setAngle: React.Dispatch<React.SetStateAction<0 | 90 | 180 | 270>>
+  setAngle: React.Dispatch<React.SetStateAction<0 | 90 | 180 | 270>>,
+  code: string
+  setCode: React.Dispatch<React.SetStateAction<string>>
 }>({
   nodes: [],
   edges: [],
@@ -53,7 +57,9 @@ const FlowContext = createContext<{
   },
   setCurrentPos,
   angle: 0,
-  setAngle
+  setAngle,
+  code: "",
+  setCode
 })
 
 export default FlowContext;

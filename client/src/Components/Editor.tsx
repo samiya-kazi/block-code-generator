@@ -7,7 +7,7 @@ import MoveNode from './MoveNode';
 import TurnNode from './TurnNode';
 import FlowContext from '../Context/FlowContext';
 import StartNode from './StartNode';
-import { convertFlowToArray } from '../utils/convert';
+import { convertFlowToArray, convertFlowToFunction } from '../utils/convert';
 
 const movement = {
   0: { x: 80, y: 0 },
@@ -55,6 +55,9 @@ function Editor() {
     const res = convertFlowToArray(nodes, edges);
     setSteps(res.slice(1));
     setRun(true);
+
+    const res1 = convertFlowToFunction(nodes, edges);
+    ctx.setCode(res1);
   }
 
   return (

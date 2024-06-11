@@ -20,6 +20,9 @@ function GameBoard() {
           <BoardPiece {...ctx.currentPos} angle={ctx.angle} />
         </Stage>
       </div>
+      <div className="code-container">
+        {ctx.code}
+      </div>
     </div>
   )
 }

@@ -11,6 +11,7 @@ function App() {
 
   const [currentPos, setCurrentPos] = useState<{ x: number, y: number }>({ x: 40, y: 40 });
   const [angle, setAngle] = useState<0 | 90 | 180 | 270>(0);
+  const [code, setCode] = useState<string>("");
 
   const [nodes, setNodes] = useNodesState<{
     label?: string,
@@ -129,7 +130,9 @@ function App() {
         onNodesChange,
         onEdgesChange,
         addNode,
-        removeNode
+        removeNode,
+        code,
+        setCode
       }}
     >
       <div className="page-container">
