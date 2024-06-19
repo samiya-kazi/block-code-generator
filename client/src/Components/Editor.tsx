@@ -2,12 +2,13 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import ReactFlow, { Background, BackgroundVariant, ControlButton, Controls } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-import ForNode from './ForNode';
-import MoveNode from './MoveNode';
-import TurnNode from './TurnNode';
+import ForNode from './Nodes/ForNode';
+import MoveNode from './Nodes/MoveNode';
+import TurnNode from './Nodes/TurnNode';
 import FlowContext from '../Context/FlowContext';
-import StartNode from './StartNode';
+import StartNode from './Nodes/StartNode';
 import { convertFlowToArray, convertFlowToFunction } from '../utils/convert';
+import CustomEdge from './Edges/CustomEdge';
 
 const movement = {
   0: { x: 80, y: 0 },
@@ -28,6 +29,10 @@ function Editor() {
     move: MoveNode,
     turn: TurnNode,
     for: ForNode
+  }), []);
+
+  const edgeTypes = useMemo(() => ({
+    custom: CustomEdge
   }), []);
 
   useEffect(() => {
@@ -74,6 +79,7 @@ function Editor() {
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}

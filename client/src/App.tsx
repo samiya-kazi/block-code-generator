@@ -37,7 +37,9 @@ function App() {
         style: {
           strokeWidth: 2,
           stroke: '#324ca8',
-        }
+        },
+        zIndex: 10,
+        type: 'custom'
       }
       const newEdges = addEdge(newEdge, eds);
       return newEdges
@@ -115,6 +117,20 @@ function App() {
     setNodes(newNodes);
   }, [setNodes]);
 
+  function removeEdge (id: string) {
+    setEdges(prev => prev.filter(edge => edge.id !== id));
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.code === "Delete") {
+      const selectedNode = nodes.find(node => node.selected);
+      const selectedEdge = edges.find(edge => edge.selected);
+
+      if (selectedNode) removeNode(selectedNode.id);
+      else if (selectedEdge) removeEdge(selectedEdge.id);
+    }
+  })
+
 
 
   return (
@@ -132,7 +148,8 @@ function App() {
         addNode,
         removeNode,
         code,
-        setCode
+        setCode,
+        removeEdge
       }}
     >
       <div className="page-container">

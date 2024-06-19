@@ -21,7 +21,7 @@ function GameBoard() {
         </Stage>
       </div>
       <div className="code-container">
-        {ctx.code}
+        <pre>{ctx.code}</pre>
       </div>
     </div>
   )

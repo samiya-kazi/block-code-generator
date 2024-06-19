@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { Handle, Position } from 'reactflow'
-import FlowContext from '../Context/FlowContext';
-import close from '../assets/close.svg';
-import loop from '../assets/loop.svg';
+import FlowContext from '../../Context/FlowContext';
+import close from '../../assets/close.svg';
+import loop from '../../assets/loop.svg';
 
 function ForNode({ id, data, selected }: {
   id: string,

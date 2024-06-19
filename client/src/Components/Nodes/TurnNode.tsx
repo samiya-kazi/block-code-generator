@@ -1,8 +1,8 @@
 import { Handle, Position } from 'reactflow';
-import close from '../assets/close.svg';
-import turnRight from '../assets/turn-right.svg';
+import close from '../../assets/close.svg';
+import turnRight from '../../assets/turn-right.svg';
 import { useContext } from 'react';
-import FlowContext from '../Context/FlowContext';
+import FlowContext from '../../Context/FlowContext';
 
 function TurnNode({ id, data, selected }: { id: string, data: { label: string, level: number, direction?: string }, selected: boolean }) {
 

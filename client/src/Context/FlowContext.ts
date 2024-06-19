@@ -7,10 +7,7 @@ const onNodesChange = (_changes: NodeChange[]) => { return };
 
 const onEdgesChange = (_changes: EdgeChange[]) => { return };
 
-const addNode = (_type: string, _parentId?: string) => {
-  console.log('I am the context function');
-  return;
-};
+const addNode = (_type: string, _parentId?: string) => {};
 
 const removeNode = (_id: string) => { return };
 
@@ -19,6 +16,8 @@ const setCurrentPos = () => {};
 const setAngle = () => {};
 
 const setCode = () => {};
+
+const removeEdge = (_id: string) => {};
 
 const FlowContext = createContext<{
   nodes: Node<{
@@ -42,7 +41,8 @@ const FlowContext = createContext<{
   angle: 0 | 90 | 180 | 270,
   setAngle: React.Dispatch<React.SetStateAction<0 | 90 | 180 | 270>>,
   code: string
-  setCode: React.Dispatch<React.SetStateAction<string>>
+  setCode: React.Dispatch<React.SetStateAction<string>>,
+  removeEdge: (id: string) => void
 }>({
   nodes: [],
   edges: [],
@@ -59,7 +59,8 @@ const FlowContext = createContext<{
   angle: 0,
   setAngle,
   code: "",
-  setCode
+  setCode,
+  removeEdge
 })
 
 export default FlowContext;
