@@ -6,6 +6,7 @@ import ForNode from './Nodes/ForNode';
 import MoveNode from './Nodes/MoveNode';
 import TurnNode from './Nodes/TurnNode';
 import FlowContext from '../Context/FlowContext';
+import WhileNode from './Nodes/WhileNode';
 import StartNode from './Nodes/StartNode';
 import { convertFlowToArray, convertFlowToFunction } from '../utils/convert';
 import CustomEdge from './Edges/CustomEdge';
@@ -28,7 +29,8 @@ function Editor() {
     start: StartNode,
     move: MoveNode,
     turn: TurnNode,
-    for: ForNode
+    for: ForNode,
+    while: WhileNode
   }), []);
 
   const edgeTypes = useMemo(() => ({
@@ -71,6 +73,7 @@ function Editor() {
         <button className='toolbar-btn' onClick={() => { addNode("move") }}>+ Move</button>
         <button className='toolbar-btn' onClick={() => { addNode("turn") }}>+ Turn</button>
         <button className='toolbar-btn' onClick={() => { addNode("for") }}>+ For</button>
+        <button className='toolbar-btn' onClick={() => { addNode("while") }}>+ While</button>
         <button className='toolbar-btn' onClick={() => { convert() }}>Convert</button>
       </div>
 

@@ -17,6 +17,7 @@ function App() {
     label?: string,
     steps?: number,
     direction?: string,
+    condition?: string,
     times?: number,
     parentId?: string,
     level: number
@@ -69,7 +70,8 @@ function App() {
       level: parentLevel ? parentLevel + 1 : 1,
       steps: type === 'move' ? 0 : undefined,
       direction: type === 'turn' ? 'left' : undefined,
-      times: type === 'for' ? 0 : undefined
+      times: type === 'for' ? 0 : undefined,
+      condition: type === 'while' ? 'front-clear' : undefined,
     }
 
     const newNode = {

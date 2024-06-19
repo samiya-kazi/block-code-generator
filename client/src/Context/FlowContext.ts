@@ -24,6 +24,7 @@ const FlowContext = createContext<{
     label?: string,
     steps?: number,
     direction?: string,
+    condition?: string,
     times?: number,
     parentId?: string
   }>[],
