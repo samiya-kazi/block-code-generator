@@ -10,19 +10,15 @@ import WhileNode from './Nodes/WhileNode';
 import StartNode from './Nodes/StartNode';
 import { generateNodeArray, convertFlowToFunction } from '../utils/convert';
 import CustomEdge from './Edges/CustomEdge';
+import { generateMoveset } from '../utils/moves';
+import { IGamePosition } from '../interfaces/GamePosition.interface';
 
-const movement = {
-  0: { x: 80, y: 0 },
-  90: { x: 0, y: 80 },
-  180: { x: -80, y: 0 },
-  270: { x: 0, y: -80 },
-};
 
 function Editor() {
 
   const { nodes, edges, onConnect, onEdgesChange, onNodesChange, addNode } = useContext(FlowContext);
   const ctx = useContext(FlowContext);
-  const [steps, setSteps] = useState<string[]>([]);
+  const [steps, setSteps] = useState<IGamePosition[]>([]);
   const [run, setRun] = useState(false);
 
   const nodeTypes = useMemo(() => ({
@@ -43,16 +39,8 @@ function Editor() {
       if (run && copy.length) {
         const nextStep = copy.shift();
         setSteps(copy);
-        if (nextStep === 'move') {
-          const displacement = movement[ctx.angle];
-          const x = ctx.currentPos.x + displacement.x < 400 && ctx.currentPos.x + displacement.x >= 40 ? ctx.currentPos.x + displacement.x : ctx.currentPos.x;
-          const y = ctx.currentPos.y + displacement.y < 400 && ctx.currentPos.y + displacement.y >= 40 ? ctx.currentPos.y + displacement.y : ctx.currentPos.y;
-          ctx.setCurrentPos({ x, y });
-        } else if (nextStep === 'right') {
-          ctx.setAngle(((ctx.angle + 90) % 360) as 0 | 90 | 180 | 270);
-        } else {
-          ctx.setAngle(((ctx.angle - 90) % 60) as 0 | 90 | 180 | 270);
-        }
+        ctx.setCurrentPos(nextStep?.position!);
+        ctx.setAngle(nextStep?.angle! as 0 | 90 | 180 | 270)
       }
     }, 500);
 
@@ -60,9 +48,9 @@ function Editor() {
 
   function convert() {
     const res = generateNodeArray(nodes, edges);
-    console.log(res);
-    // setSteps(res.slice(1));
-    // setRun(true);
+    const moveset = generateMoveset(res, ctx.currentPos, ctx.angle, { max: { x: 400, y: 400 }, min: { x: 40, y:40 }});
+    setSteps(moveset.moveset);
+    setRun(true);
 
     const res1 = convertFlowToFunction(nodes, edges);
     ctx.setCode(res1);
