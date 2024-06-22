@@ -8,7 +8,7 @@ import TurnNode from './Nodes/TurnNode';
 import FlowContext from '../Context/FlowContext';
 import WhileNode from './Nodes/WhileNode';
 import StartNode from './Nodes/StartNode';
-import { convertFlowToArray, convertFlowToFunction } from '../utils/convert';
+import { generateNodeArray, convertFlowToFunction } from '../utils/convert';
 import CustomEdge from './Edges/CustomEdge';
 
 const movement = {
@@ -59,9 +59,10 @@ function Editor() {
   }, [ctx.angle, ctx.currentPos, run])
 
   function convert() {
-    const res = convertFlowToArray(nodes, edges);
-    setSteps(res.slice(1));
-    setRun(true);
+    const res = generateNodeArray(nodes, edges);
+    console.log(res);
+    // setSteps(res.slice(1));
+    // setRun(true);
 
     const res1 = convertFlowToFunction(nodes, edges);
     ctx.setCode(res1);

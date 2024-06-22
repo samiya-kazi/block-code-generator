@@ -1,177 +1,60 @@
 import { Edge, Node } from "reactflow";
-
-// export const convertFlowToFunction = (nodes: Node[], edges: Edge[]) => {
-//   if (!nodes.length || !edges.length) return '';
-
-//   let copiedNodes = JSON.parse(JSON.stringify(nodes)) as Node[];
-//   const copiedEdges = JSON.parse(JSON.stringify(edges)) as Edge[];
-
-//   let res = '';
-//   let prevIndent = 0;
-//   let nodeStack: Node[] = [];
-
-//   const index = copiedNodes.findIndex(node => node.type === 'start');
-//   nodeStack.push(copiedNodes[index]);
-
-//   while (nodeStack.length) {
-//     const currentNode = nodeStack.pop()!;
-//     let indent = nodeStack.length;
-
-//     if (indent < prevIndent) {
-//       for (let index = 0; index < indent; index++) {
-//         res += ' '
-//       }
-
-//       res += '}\n'
-//     }
-
-//     for (let index = 0; index < indent; index++) {
-//       res += ' '
-//     }
-
-//     if (currentNode.type === 'move') {
-//       res += `move(${currentNode.data.steps})\n`
-//     } else if (currentNode.type === 'turn') {
-//       res += `turn(${currentNode.data.direction})\n`
-//     } else if (currentNode.type === 'for') {
-//       res += `for(let i = 0; i < ${currentNode.data.times}; i++) {\n`
-//     } else res += ``
-
-
-//     const edgeIndex = copiedEdges.findIndex(edge => edge.source === currentNode.id);
-//     if (edgeIndex === -1) {
-//       res += '}';
-//       return res;
-//     }
-
-//     const edge = copiedEdges[edgeIndex];
-//     const nextNodeIndex = copiedNodes.findIndex(node => node.id === edge.target);
-//     if (nextNodeIndex === -1) {
-//       res += '}';
-//       return res
-//     };
-//     nodeStack.push(copiedNodes[nextNodeIndex]);
-//     prevIndent = indent;
-//   }
-
-//   res += '}';
-
-//   return res;
-// }
+import { IStep } from "../interfaces/Step.interface";
 
 export const convertFlowToFunction = (nodes: Node[], edges: Edge[]) => {
-  const arr = generateCodeArray(nodes, edges);
-  return arr.join('\n')
+  const steps = generateNodeArray(nodes, edges);
+  const arr = generateCodeArray(steps);
+  return arr.join('\n');
 }
 
-export const generateCodeArray = (nodes: Node[], edges: Edge[], parentId?: string) => {
-  if (!nodes.length || !edges.length) return [];
+function generateCodeArray(steps: IStep[]) {
 
-  let copiedNodes = JSON.parse(JSON.stringify(nodes)) as Node[];
-  const copiedEdges = JSON.parse(JSON.stringify(edges)) as Edge[];
+  const codeArray: string[] = [];
 
-  let nodeArray: Node[] = [];
-  let codeArray: string[] = [];
-
-  if (!parentId) {
-    const index = copiedNodes.findIndex(node => node.type === 'start');
-    nodeArray.push(copiedNodes[index]);
-  } else {
-    let startNode = copiedNodes.find(node => {
-      if (node.parentId !== parentId) return false;
-
-      const connectedEdges = copiedEdges.filter(ed => ed.target === node.id || ed.source === node.id);
-      if (connectedEdges.length === 1 && connectedEdges[0].source === node.id) return true;
-      return false;
-    });
-
-    if (!startNode) {
-      const childNodes = copiedNodes.filter(node => node.parentId === parentId);
-      if (!childNodes.length) return [];
-      startNode = childNodes[0];
+  for (const step of steps) {
+    if (step.type === "move") {
+      codeArray.push([...Array(step.node.data.level - 1).fill('  '), `move(${step.node.data.steps})`].join(''));
+    } else if (step.type === "turn") {
+      codeArray.push([...Array(step.node.data.level - 1).fill('  '), `turn('${step.node.data.direction}')`].join(''));
     }
-
-    nodeArray.push(startNode);
-  }
-
-  let flag = true;
-
-  while (flag) {
-    const lastStep = nodeArray[nodeArray.length - 1];
-
-    if (lastStep.type === "move") {
-      codeArray.push([...Array(lastStep.data.level - 1).fill('  '), `move(${lastStep.data.steps})`].join(''));
-    } else if (lastStep.type === "turn") {
-      codeArray.push([...Array(lastStep.data.level - 1).fill('  '), `turn('${lastStep.data.direction}')`].join(''));
+    if (step.type === "for" || step.type === "while") {
+      if (step.type === "for")
+        codeArray.push([...Array(step.node.data.level - 1).fill('  '), `for (let i = 0; i < ${step.node.data.times}; i++) {`].join(''));
+      else 
+      codeArray.push([...Array(step.node.data.level - 1).fill('  '), `while (${step.node.data.condition}) {`].join(''));
+      if (step.children) {
+        const subNodes = generateCodeArray(step.children);
+        codeArray.push(...subNodes);
+      }
+      codeArray.push([...Array(step.node.data.level - 1).fill('  '), `}`].join(''));
     }
-    if (lastStep.type === "for") {
-      codeArray.push([...Array(lastStep.data.level - 1).fill('  '), `for (let i = 0; i < ${lastStep.data.times}; i++) {`].join(''));
-      const subNodes = generateCodeArray(copiedNodes, copiedEdges, lastStep.id);
-      codeArray.push(...subNodes);
-      codeArray.push([...Array(lastStep.data.level - 1).fill('  '), `}`].join(''));
-    }
-
-    const edgeIndex = copiedEdges.findIndex(edge => edge.source === lastStep.id);
-    if (edgeIndex === -1) {
-      flag = false;
-      break;
-    }
-
-    const edge = copiedEdges[edgeIndex];
-    const nextNodeIndex = copiedNodes.findIndex(node => node.id === edge.target);
-    const nextNode = copiedNodes[nextNodeIndex];
-    nodeArray.push(nextNode);
   }
 
   return codeArray;
+
 }
 
 
-export const convertFlowToArray = (nodes: Node[], edges: Edge[]) => {
-  const nodeArray = generateNodeArray(nodes, edges);
-  return convertNodeArrToSingleSteps(nodeArray);
-}
-
-function generateNodeArray(nodes: Node[], edges: Edge[], parentId?: string) {
+export function generateNodeArray(nodes: Node[], edges: Edge[], parentId?: string) {
   if (!nodes.length || !edges.length) return [];
 
   let copiedNodes = JSON.parse(JSON.stringify(nodes)) as Node[];
   const copiedEdges = JSON.parse(JSON.stringify(edges)) as Edge[];
 
-  let nodeArray: Node[] = [];
+  let nodeArray: IStep[] = [];
 
-  if (!parentId) {
-    const index = copiedNodes.findIndex(node => node.type === 'start');
-    nodeArray.push(copiedNodes[index]);
-  } else {
-    let startNode = copiedNodes.find(node => {
-      if (node.parentId !== parentId) return false;
-
-      const connectedEdges = copiedEdges.filter(ed => ed.target === node.id || ed.source === node.id);
-      if (connectedEdges.length === 1 && connectedEdges[0].source === node.id) return true;
-      return false;
-    });
-
-    if (!startNode) {
-      const childNodes = copiedNodes.filter(node => node.parentId === parentId);
-      if (!childNodes.length) return [];
-      startNode = childNodes[0];
-    }
-
-    nodeArray.push(startNode);
-  }
+  const startNode = getStartNode(copiedNodes, copiedEdges, parentId);
+  if (!startNode) return nodeArray;
+  nodeArray.push({ id: startNode.id, type: startNode.type ?? 'start', node: startNode });
 
   let flag = true;
 
   while (flag) {
     const lastStep = nodeArray[nodeArray.length - 1];
 
-    if (lastStep.type === "for") {
-      nodeArray.pop();
+    if (lastStep.type === "for" || lastStep.type === "while") {
       const subNodes = generateNodeArray(copiedNodes, copiedEdges, lastStep.id);
-      for (let i = 0; i < lastStep.data.times; i++) {
-        nodeArray.push(...subNodes);
-      }
+      lastStep.children = subNodes;
     }
 
     const edgeIndex = copiedEdges.findIndex(edge => edge.source === lastStep.id);
@@ -183,22 +66,32 @@ function generateNodeArray(nodes: Node[], edges: Edge[], parentId?: string) {
     const edge = copiedEdges[edgeIndex];
     const nextNodeIndex = copiedNodes.findIndex(node => node.id === edge.target);
     const nextNode = copiedNodes[nextNodeIndex];
-    nodeArray.push(nextNode);
+    nodeArray.push({ id: nextNode.id, type: nextNode.type ?? '', node: nextNode });
   }
 
   return nodeArray;
 }
 
-export function convertNodeArrToSingleSteps(nodes: Node[]) {
-  const res: string[] = [];
 
-  for (const node of nodes) {
-    if (node.type === 'move') {
-      for (let i = 0; i < node.data.steps; i++) {
-        res.push('move');
-      }
-    } else res.push(node.data.direction)
+function getStartNode(nodes: Node[], edges: Edge[], parentId?: string) {
+  if (!parentId) {
+    const index = nodes.findIndex(node => node.type === 'start');
+    return nodes[index];
+  } else {
+    let startNode = nodes.find(node => {
+      if (node.parentId !== parentId) return false;
+
+      const connectedEdges = edges.filter(ed => ed.target === node.id || ed.source === node.id);
+      if (connectedEdges.length === 1 && connectedEdges[0].source === node.id) return true;
+      return false;
+    });
+
+    if (!startNode) {
+      const childNodes = nodes.filter(node => node.parentId === parentId);
+      if (!childNodes.length) return undefined;
+      startNode = childNodes[0];
+    }
+
+    return startNode;
   }
-
-  return res;
 }

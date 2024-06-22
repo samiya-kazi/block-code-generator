@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import FlowContext from "../../Context/FlowContext";
 import whileSVG from "../../assets/while.svg";
 import close from "../../assets/close.svg";
+import { Handle, Position } from "reactflow";
 
 function WhileNode({
   id,
@@ -68,6 +69,9 @@ function WhileNode({
           />
         </div>
       </div>
+
+      <Handle type="target" position={Position.Top} />
+      <Handle type="source" position={Position.Bottom} />
     </div>
   );
 }
