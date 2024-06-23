@@ -151,7 +151,9 @@ function App() {
         removeNode,
         code,
         setCode,
-        removeEdge
+        removeEdge,
+        danger: [{ x: 280, y: 40 }],
+        target: { x: 360, y: 360 }
       }}
     >
       <div className="page-container">

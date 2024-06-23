@@ -48,7 +48,7 @@ function Editor() {
 
   function convert() {
     const res = generateNodeArray(nodes, edges);
-    const moveset = generateMoveset(res, ctx.currentPos, ctx.angle, { max: { x: 400, y: 400 }, min: { x: 40, y:40 }});
+    const moveset = generateMoveset(res, ctx.currentPos, ctx.angle, { max: { x: 400, y: 400 }, min: { x: 40, y:40 }}, ctx.danger);
     setSteps(moveset.moveset);
     setRun(true);
 

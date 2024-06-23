@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import FlowContext from "../../Context/FlowContext";
 import whileSVG from "../../assets/while.svg";
 import close from "../../assets/close.svg";

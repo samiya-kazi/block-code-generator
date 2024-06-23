@@ -43,7 +43,9 @@ const FlowContext = createContext<{
   setAngle: React.Dispatch<React.SetStateAction<0 | 90 | 180 | 270>>,
   code: string
   setCode: React.Dispatch<React.SetStateAction<string>>,
-  removeEdge: (id: string) => void
+  removeEdge: (id: string) => void,
+  danger: { x: number, y: number }[],
+  target: { x: number, y: number }
 }>({
   nodes: [],
   edges: [],
@@ -61,7 +63,9 @@ const FlowContext = createContext<{
   setAngle,
   code: "",
   setCode,
-  removeEdge
+  removeEdge,
+  danger: [],
+  target: { x: 360, y: 360 }
 })
 
 export default FlowContext;
